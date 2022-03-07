@@ -2,11 +2,11 @@ extends CanvasLayer
 
 const MIN_HEALTH: int = 21
 
-var max_hp: int = 0
-
 onready var player: KinematicBody2D = get_parent().get_node("Player")
 onready var health_bar: TextureProgress = get_node("HealthBar")
 onready var health_bar_tween: Tween = get_node("HealthBar/Tween")
+
+var max_hp: int = 4
 
 func _ready() -> void:
 	max_hp = player.hp

@@ -1,7 +1,9 @@
 extends Navigation2D
 
 const SPAWN_ROOMS: Array = [preload("res://rooms/spawnrooms/SpawnRoom1.tscn")]
-const INTERMEDIATE_ROOMS: Array = [preload("res://rooms/enemyrooms/EnemyRoom1.tscn"), preload("res://rooms/enemyrooms/EnemyRoom2.tscn")]
+const INTERMEDIATE_ROOMS: Array = [preload("res://rooms/enemyrooms/EnemyRoom1.tscn"), 
+preload("res://rooms/enemyrooms/EnemyRoom2.tscn"),
+preload("res://rooms/enemyrooms/EnemyRoom3.tscn")]
 const END_ROOMS: Array = [preload("res://rooms/endrooms/EndRoom1.tscn")]
 
 const TILE_SIZE: int = 16
@@ -14,6 +16,14 @@ export(int) var num_levels: int = 5
 onready var player: KinematicBody2D = get_parent().get_node("Player")
 
 func _ready() -> void:
+	if player.level <= 5:
+		num_levels = 5
+	elif player.level <= 10:
+		num_levels = 7
+	elif player.level <= 15:
+		num_levels = 9
+	elif player.level <= 20:
+		num_levels = 11
 	_spawn_rooms()
 
 func _spawn_rooms() -> void:

@@ -26,7 +26,7 @@ func _on_body_entered(body: PhysicsBody2D) -> void:
 		_collide(body)
 		yield(body_inside_timer, "timeout")
 
-func _on_body_exited(body: KinematicBody2D) -> void:
+func _on_body_exited(_body: KinematicBody2D) -> void:
 	body_inside = false
 	body_inside_timer.stop()
 

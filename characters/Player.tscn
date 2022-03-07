@@ -6,8 +6,8 @@
 [ext_resource path="res://art/lizard/lizard_m_run_anim_f0-Sheet.png" type="Texture" id=4]
 [ext_resource path="res://characters/Player.gd" type="Script" id=5]
 [ext_resource path="res://characters/PlayerFSM.gd" type="Script" id=6]
-[ext_resource path="res://weapons/Sword.tscn" type="PackedScene" id=7]
-[ext_resource path="res://weapons/MorningStar.tscn" type="PackedScene" id=8]
+[ext_resource path="res://weapons/sword/Sword.tscn" type="PackedScene" id=7]
+[ext_resource path="res://weapons/morningstar/MorningStar.tscn" type="PackedScene" id=8]
 [ext_resource path="res://art/enemy_afterdead_explosion_anim_spritesheet.png" type="Texture" id=10]
 
 [sub_resource type="AtlasTexture" id=1]
@@ -26,22 +26,6 @@ region = Rect2( 32, 0, 16, 28 )
 atlas = ExtResource( 1 )
 region = Rect2( 48, 0, 16, 28 )
 
-[sub_resource type="AtlasTexture" id=19]
-atlas = ExtResource( 10 )
-region = Rect2( 0, 0, 16, 16 )
-
-[sub_resource type="AtlasTexture" id=20]
-atlas = ExtResource( 10 )
-region = Rect2( 16, 0, 16, 16 )
-
-[sub_resource type="AtlasTexture" id=21]
-atlas = ExtResource( 10 )
-region = Rect2( 32, 0, 16, 16 )
-
-[sub_resource type="AtlasTexture" id=22]
-atlas = ExtResource( 10 )
-region = Rect2( 48, 0, 16, 16 )
-
 [sub_resource type="AtlasTexture" id=6]
 atlas = ExtResource( 4 )
 region = Rect2( 0, 0, 16, 28 )
@@ -58,6 +42,22 @@ region = Rect2( 32, 0, 16, 28 )
 atlas = ExtResource( 4 )
 region = Rect2( 48, 0, 16, 28 )
 
+[sub_resource type="AtlasTexture" id=19]
+atlas = ExtResource( 10 )
+region = Rect2( 0, 0, 16, 16 )
+
+[sub_resource type="AtlasTexture" id=20]
+atlas = ExtResource( 10 )
+region = Rect2( 16, 0, 16, 16 )
+
+[sub_resource type="AtlasTexture" id=21]
+atlas = ExtResource( 10 )
+region = Rect2( 32, 0, 16, 16 )
+
+[sub_resource type="AtlasTexture" id=22]
+atlas = ExtResource( 10 )
+region = Rect2( 48, 0, 16, 16 )
+
 [sub_resource type="AtlasTexture" id=5]
 atlas = ExtResource( 3 )
 region = Rect2( 0, 0, 16, 28 )
@@ -69,14 +69,14 @@ animations = [ {
 "name": "idle",
 "speed": 5.0
 }, {
-"frames": [ SubResource( 19 ), SubResource( 20 ), SubResource( 21 ), SubResource( 22 ) ],
-"loop": true,
-"name": "dead",
-"speed": 5.0
-}, {
 "frames": [ SubResource( 6 ), SubResource( 7 ), SubResource( 8 ), SubResource( 9 ) ],
 "loop": true,
 "name": "move",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 19 ), SubResource( 20 ), SubResource( 21 ), SubResource( 22 ) ],
+"loop": true,
+"name": "dead",
 "speed": 5.0
 }, {
 "frames": [ SubResource( 5 ) ],
@@ -297,7 +297,6 @@ tracks/1/keys = {
 collision_layer = 2
 collision_mask = 5
 script = ExtResource( 5 )
-hp = 80
 
 [node name="FiniteStateMachine" parent="." index="0"]
 script = ExtResource( 6 )
@@ -327,3 +326,9 @@ current = true
 
 [node name="MorningStar" parent="Weapons" index="1" instance=ExtResource( 8 )]
 visible = false
+
+[node name="PickupTimer" type="Timer" parent="." index="6"]
+wait_time = 1.2
+one_shot = true
+
+[connection signal="timeout" from="PickupTimer" to="." method="_on_PickupTimer_timeout"]

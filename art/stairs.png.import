@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/morningstart.png-b7308aa3ee2b3b2a96d5d13e4ed8a003.stex"
+path="res://.import/stairs.png-3811931debd75dce4656c0835cb89a10.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://art/weapon/morningstart.png"
-dest_files=[ "res://.import/morningstart.png-b7308aa3ee2b3b2a96d5d13e4ed8a003.stex" ]
+source_file="res://art/stairs.png"
+dest_files=[ "res://.import/stairs.png-3811931debd75dce4656c0835cb89a10.stex" ]
 
 [params]
 
