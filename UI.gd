@@ -2,7 +2,7 @@ extends CanvasLayer
 
 const MIN_HEALTH: int = 21
 
-var max_hp: int = 4
+var max_hp: int = 0
 
 onready var player: KinematicBody2D = get_parent().get_node("Player")
 onready var health_bar: TextureProgress = get_node("HealthBar")
@@ -13,8 +13,7 @@ func _ready() -> void:
 	_update_health_bar(100)
 
 func _update_health_bar(new_value: int) -> void:
-	var __ = health_bar_tween.interpolate_property(health_bar, "value", health_bar.value, 
-												   new_value, 0.5, Tween.TRANS_QUINT, Tween.EASE_OUT)
+	var __ = health_bar_tween.interpolate_property(health_bar, "value", health_bar.value, new_value, 0.5, Tween.TRANS_QUINT, Tween.EASE_OUT)
 	__ = health_bar_tween.start()
 
 

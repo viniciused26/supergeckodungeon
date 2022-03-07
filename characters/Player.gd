@@ -4,9 +4,17 @@ onready var sword: Node2D = get_node("Sword")
 onready var sword_hitbox: Area2D = get_node("Sword/Node2D/Sprite/Hitbox")
 onready var sword_animation_player: AnimationPlayer = sword.get_node("SwordAnimationPlayer")
 
-func _ready():
+export(int) var strength: int = 2 setget set_str
+export(int) var dexterity: int = 2 setget set_dex
+export(int) var magic: int = 2 setget set_mag
+export(int) var vitality: int = 2 setget set_vit
+
+func _ready() -> void:
 	sword.get_node("SlashSprite").visible = false
 	sword_hitbox.get_node("CollisionShape2D").disabled = true
+	get_node("CollisionShape2D").disabled = false
+	hp = 5 * vitality
+	
 
 func _process(_delta: float) -> void:
 	var mouse_direction: Vector2 = (get_global_mouse_position() - global_position).normalized()
@@ -44,3 +52,15 @@ func switch_camera() -> void:
 	main_scene_camera.position = position
 	main_scene_camera.current = true
 	get_node("Camera2D").current = false
+
+func set_str(new_str: int) -> void:
+	strength = new_str
+
+func set_dex(new_dex: int) -> void:
+	dexterity = new_dex
+
+func set_mag(new_mag: int) -> void:
+	magic = new_mag
+
+func set_vit(new_vit: int) -> void:
+	vitality = new_vit

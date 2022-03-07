@@ -1,15 +1,15 @@
 extends Navigation2D
 
-const SPAWN_ROOMS: Array = [preload("res://rooms/SpawnRoom1.tscn")]
-const INTERMEDIATE_ROOMS: Array = [preload("res://rooms/EnemyRoom1.tscn")]
-const END_ROOMS: Array = [preload("res://rooms/EndRoom1.tscn")]
+const SPAWN_ROOMS: Array = [preload("res://rooms/spawnrooms/SpawnRoom1.tscn")]
+const INTERMEDIATE_ROOMS: Array = [preload("res://rooms/enemyrooms/EnemyRoom1.tscn"), preload("res://rooms/enemyrooms/EnemyRoom2.tscn")]
+const END_ROOMS: Array = [preload("res://rooms/endrooms/EndRoom1.tscn")]
 
 const TILE_SIZE: int = 16
 const FLOOR_TILE_INDEX: int = 6
 const RIGHT_WALL_TILE_INDEX: int = 24
 const LEFT_WALL_TILE_INDEX: int = 23
 
-export(int) var num_levels: int = 3
+export(int) var num_levels: int = 5
 
 onready var player: KinematicBody2D = get_parent().get_node("Player")
 
@@ -35,7 +35,7 @@ func _spawn_rooms() -> void:
 			var previous_room_door: StaticBody2D = previous_room.get_node("Doors/Door")
 			var exit_tile_pos: Vector2 = previous_room_tilemap.world_to_map(previous_room_door.position) + Vector2.UP
 			
-			var corridor_height: int = 5
+			var corridor_height: int = randi() % 7 + 3
 			for y in corridor_height:
 				previous_room_tilemap.set_cellv(exit_tile_pos + Vector2(-2, -y), LEFT_WALL_TILE_INDEX)
 				previous_room_tilemap.set_cellv(exit_tile_pos + Vector2(-1, -y), FLOOR_TILE_INDEX)
