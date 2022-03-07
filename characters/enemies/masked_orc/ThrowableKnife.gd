@@ -6,7 +6,7 @@ var direction: Vector2 = Vector2.ZERO
 var knife_speed: int = 0
 
 func  _ready() -> void:
-	damage = 5
+	damage = 3
 
 func launch(initial_position: Vector2, dir: Vector2, speed: int) -> void:
 	position = initial_position
