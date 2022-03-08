@@ -3,6 +3,7 @@ class_name Character, "res://art/lizard/lizard_m_hit_anim_f0.png"
 
 const FRICTION: float = 0.15
 
+export (int) var max_hp: int = 4
 export(int) var hp: int = 2 setget set_hp
 signal hp_changed(new_hp)
 

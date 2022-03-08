@@ -7,26 +7,25 @@ var able_to_pickup: bool = true
 onready var weapons: Node2D = get_node("Weapons")
 onready var pickup_timer: Timer = get_node("PickupTimer")
 
-export(int) var level: int = 1 setget set_lvl
-export(int) var strength: int = 2 setget set_str
-export(int) var dexterity: int = 2 setget set_dex
-export(int) var magic: int = 2 setget set_mag
-export(int) var vitality: int = 2 setget set_vit
+export(int) var level: int = 1
+export(int) var strength: int = 2
+export(int) var dexterity: int = 2
+export(int) var magic: int = 2
+export(int) var vitality: int = 2
 
 func _ready() -> void:
 	current_weapon = weapons.get_child(0)
 	_restore_previous_state()
 	get_node("CollisionShape2D").disabled = false
-	
 
 func _restore_previous_state() -> void:
 	self.hp = SavedData.hp
-	self.level = SavedData.level
-	self.strength = SavedData.strength
-	self.dexterity = SavedData.dexterity
-	self.magic = SavedData.magic
-	self.vitality = SavedData.vitality
-
+	max_hp = SavedData.max_hp
+	level = SavedData.level
+	strength = SavedData.strength
+	dexterity = SavedData.dexterity
+	magic = SavedData.magic
+	vitality = SavedData.vitality
 
 func _process(_delta: float) -> void:
 	var mouse_direction: Vector2 = (get_global_mouse_position() - global_position).normalized()
@@ -69,7 +68,6 @@ func _switch_weapon() -> void:
 	else:
 		current_weapon_index = previous_index
 
-
 func switch_camera() -> void:
 	var main_scene_camera: Camera2D = get_parent().get_node("Camera2D")
 	main_scene_camera.position = position
@@ -87,7 +85,6 @@ func  pick_up_weapon(weapon: Node2D) -> void:
 	able_to_pickup = false
 	pickup_timer.start()
 
-
 func _drop_weapon() -> void:
 	SavedData.weapons.remove(current_weapon.get_index() - 1)
 	
@@ -101,23 +98,6 @@ func _drop_weapon() -> void:
 	
 	var throw_dir: Vector2 = (get_global_mouse_position() - position).normalized()
 	weapon_to_drop.interpolate_pos(position, position + throw_dir * 20)
-
-
-func set_lvl(new_lvl: int) -> void:
-	level = new_lvl
-
-func set_str(new_str: int) -> void:
-	strength = new_str
-
-func set_dex(new_dex: int) -> void:
-	dexterity = new_dex
-
-func set_mag(new_mag: int) -> void:
-	magic = new_mag
-
-func set_vit(new_vit: int) -> void:
-	vitality = new_vit
-
 
 func _on_PickupTimer_timeout():
 	able_to_pickup = true

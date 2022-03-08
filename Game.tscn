@@ -10,14 +10,6 @@
 [node name="Game" type="Node2D"]
 script = ExtResource( 7 )
 
-[node name="Rooms" type="Navigation2D" parent="."]
-position = Vector2( -1, 0 )
-script = ExtResource( 3 )
-
-[node name="Player" parent="." instance=ExtResource( 2 )]
-
-[node name="Camera2D" type="Camera2D" parent="."]
-
 [node name="UI" type="CanvasLayer" parent="."]
 script = ExtResource( 6 )
 
@@ -26,7 +18,6 @@ margin_left = 8.0
 margin_top = 8.0
 margin_right = 80.0
 margin_bottom = 16.0
-min_value = 21.0
 value = 21.0
 texture_over = ExtResource( 4 )
 texture_progress = ExtResource( 5 )
@@ -36,3 +27,13 @@ __meta__ = {
 }
 
 [node name="Tween" type="Tween" parent="UI/HealthBar"]
+
+[node name="Rooms" type="Navigation2D" parent="."]
+position = Vector2( -1, 0 )
+script = ExtResource( 3 )
+
+[node name="Player" parent="." instance=ExtResource( 2 )]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[connection signal="hp_changed" from="Player" to="UI" method="_on_Player_hp_changed"]
