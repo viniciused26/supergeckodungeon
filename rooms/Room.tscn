@@ -1271,4 +1271,8 @@ anims/closing = SubResource( 66 )
 position = Vector2( 0, 6 )
 shape = SubResource( 67 )
 
+[node name="WeaponSpawners" type="Node2D" parent="."]
+
+[node name="WeaponContainer" type="Node2D" parent="."]
+
 [connection signal="body_entered" from="PlayerDetector" to="." method="_on_PlayerDetector_body_entered"]

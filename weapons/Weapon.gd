@@ -2,7 +2,6 @@ extends Node2D
 class_name Weapon, "res://art/weapon/sword/sword.png"
 
 export(bool) var on_floor: bool = false
-var able_to_pick_up: bool = true
 
 onready var animation_player: AnimationPlayer = get_node("AnimationPlayer")
 onready var animated_sprite: AnimatedSprite = get_node("Node2D/AnimatedSprite")
@@ -40,15 +39,9 @@ func is_busy() -> bool:
 func set_stats() -> void:
 	pass
 
-func dropped() -> void:
-	animation_player.playback_speed = 1
-	animation_player.play("on_floor")
-	rotation_degrees = 0
-
-
 func _on_PlayerDetector_body_entered(body: KinematicBody2D) -> void:
 	if body != null:
-		if body.able_to_pickup == true:
+		if body.able_to_pickup == true and not body.current_weapon.is_busy():
 			player_detector.set_collision_mask_bit(0, false)
 			player_detector.set_collision_mask_bit(1, false)
 				
@@ -60,19 +53,12 @@ func _on_PlayerDetector_body_entered(body: KinematicBody2D) -> void:
 				
 		
 	else:
-		var __ = tween.stop_all()
-		assert(__)
 		player_detector.set_collision_mask_bit(1, true)
 
-
-func interpolate_pos(initial_pos: Vector2, final_pos: Vector2) -> void:
-	var __ = tween.interpolate_property(self, "position", initial_pos, final_pos, 0.8, Tween.TRANS_QUART, Tween.EASE_OUT)
-	assert(__)
-	__ = tween.start()
-	assert(__)
+func reset_for_pickup() -> void:
 	player_detector.set_collision_mask_bit(0, true)
-	
-
-
-func _on_Tween_tween_completed(_object: Object, _key: NodePath) -> void:
 	player_detector.set_collision_mask_bit(1, true)
+
+func dropped() -> void:
+	animation_player.playback_speed = 1
+	reset_for_pickup()

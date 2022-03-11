@@ -1,9 +1,8 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://rooms/Door.tscn" type="PackedScene" id=1]
 [ext_resource path="res://rooms/Room.tscn" type="PackedScene" id=2]
 [ext_resource path="res://rooms/WaterFountain.tscn" type="PackedScene" id=3]
-[ext_resource path="res://weapons/golden_sword/GoldenSword.tscn" type="PackedScene" id=4]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 32, 15 )
@@ -20,18 +19,18 @@ tile_data = PoolIntArray( 1, 41, 0, 8, 41, 0, 196608, 42, 0, 196617, 42, 0, 3276
 tile_data = PoolIntArray( 131072, 24, 0, 131081, 23, 0, 196608, 24, 0, 196617, 23, 0, 262144, 24, 0, 262153, 23, 0, 327680, 24, 0, 327689, 23, 0, 393216, 24, 0, 393225, 23, 0, 458752, 17, 0, 458753, 1, 0, 458754, 1, 0, 458755, 1, 0, 458756, 1, 0, 458757, 1, 0, 458758, 1, 0, 458759, 1, 0, 458760, 1, 0, 458761, 18, 0, 524289, 4, 0, 524290, 4, 0, 524291, 4, 0, 524292, 4, 0, 524293, 4, 0, 524294, 4, 0, 524295, 4, 0, 524296, 4, 0 )
 
 [node name="PlayerSpawnPos" type="Position2D" parent="." index="3"]
-position = Vector2( 72, 104 )
+position = Vector2( 88, 104 )
 
 [node name="Door" parent="Doors" index="0" instance=ExtResource( 1 )]
 position = Vector2( 80, 32 )
 
 [node name="WaterFountain" parent="." index="7" instance=ExtResource( 3 )]
 position = Vector2( 40, 26 )
-frame = 2
+frame = 0
 
 [node name="WaterFountain2" parent="." index="8" instance=ExtResource( 3 )]
 position = Vector2( 120, 26 )
-frame = 2
+frame = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerDetector" index="0"]
 visible = false
@@ -41,6 +40,5 @@ shape = SubResource( 1 )
 [node name="ClosingDoors" parent="." index="10"]
 visible = false
 
-[node name="GoldenSword" parent="." index="11" instance=ExtResource( 4 )]
-position = Vector2( 72, 88 )
-on_floor = true
+[node name="Position2D" type="Position2D" parent="WeaponSpawners" index="0"]
+position = Vector2( 40, 72 )

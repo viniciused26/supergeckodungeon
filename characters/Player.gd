@@ -14,7 +14,8 @@ export(int) var magic: int = 2
 export(int) var vitality: int = 2
 
 func _ready() -> void:
-	current_weapon = weapons.get_child(0)
+	current_weapon_index = 0
+	current_weapon = weapons.get_child(current_weapon_index)
 	_restore_previous_state()
 	get_node("CollisionShape2D").disabled = false
 
@@ -54,9 +55,7 @@ func get_input() -> void:
 	current_weapon.get_input()
 
 func _switch_weapon() -> void:
-	var previous_index: int = current_weapon_index
-	
-	if current_weapon_index == 1:
+	if current_weapon.get_index() == 1:
 		current_weapon_index = 0
 	else:
 		current_weapon_index = 1
@@ -65,8 +64,7 @@ func _switch_weapon() -> void:
 		current_weapon.hide()
 		current_weapon = weapons.get_child(current_weapon_index)
 		current_weapon.show()
-	else:
-		current_weapon_index = previous_index
+		current_weapon.animation_player.play("equipped")
 
 func switch_camera() -> void:
 	var main_scene_camera: Camera2D = get_parent().get_node("Camera2D")
@@ -75,29 +73,35 @@ func switch_camera() -> void:
 	get_node("Camera2D").current = false
 
 func  pick_up_weapon(weapon: Node2D) -> void:
-	weapon.get_parent().call_deferred("remove_child", weapon)
+	var weapon_spot = weapon.get_parent()
+	weapon_spot.call_deferred("remove_child", weapon)
+	
 	weapons.call_deferred("add_child", weapon)
 	weapon.set_deferred("owner", weapons)
+	 
 	current_weapon.hide()
-	_drop_weapon()
+	_drop_weapon(weapon_spot)
+	
 	current_weapon = weapon
-	current_weapon.set_stats()
+	
 	able_to_pickup = false
 	pickup_timer.start()
 
-func _drop_weapon() -> void:
-	SavedData.weapons.remove(current_weapon.get_index() - 1)
-	
+func _drop_weapon(spot: Node2D) -> void:
 	var weapon_to_drop: Node2D = current_weapon
 	weapons.call_deferred("remove_child", weapon_to_drop)
-	get_parent().call_deferred("add_child", weapon_to_drop)
-	weapon_to_drop.set_owner(get_parent())
-	yield(weapon_to_drop.tween, "tree_entered")
-	weapon_to_drop.show()
-	weapon_to_drop.dropped()
+	spot.call_deferred("add_child", weapon_to_drop)
+	weapon_to_drop.set_deferred("owner", spot)
 	
 	var throw_dir: Vector2 = (get_global_mouse_position() - position).normalized()
-	weapon_to_drop.interpolate_pos(position, position + throw_dir * 20)
+	if throw_dir.x > 0:
+		weapon_to_drop.rotation_degrees = 0
+	elif throw_dir.x < 0:
+		weapon_to_drop.rotation_degrees = 180
+	
+	weapon_to_drop.animation_player.play("on_floor")
+	weapon_to_drop.show()
+	weapon_to_drop.dropped()
 
 func _on_PickupTimer_timeout():
 	able_to_pickup = true

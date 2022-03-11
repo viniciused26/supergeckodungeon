@@ -45,7 +45,7 @@ height = 10.0
 [sub_resource type="Animation" id=36]
 length = 0.001
 tracks/0/type = "value"
-tracks/0/path = NodePath(".:position")
+tracks/0/path = NodePath("Node2D/AnimatedSprite:visible")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -54,19 +54,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Vector2( 0, 0 ) ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("Node2D:position")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Vector2( 0, 0 ) ]
+"values": [ true ]
 }
 
 [sub_resource type="Animation" id=17]
@@ -198,6 +186,32 @@ tracks/4/keys = {
 "update": 1,
 "values": [ true ]
 }
+tracks/5/type = "method"
+tracks/5/path = NodePath(".")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "set_stats"
+} ]
+}
+tracks/6/type = "value"
+tracks/6/path = NodePath("Node2D/AnimatedSprite:visible")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0, 0.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
 
 [sub_resource type="Animation" id=33]
 resource_name = "on_floor"
@@ -264,21 +278,18 @@ tracks/4/keys = {
 "values": [ 0, 1, 2, 3 ]
 }
 
-[sub_resource type="CapsuleShape2D" id=34]
-radius = 5.0
-height = 10.0
+[sub_resource type="CapsuleShape2D" id=8]
+radius = 7.0
+height = 14.0
 
 [node name="GoldenSword" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
 
 [node name="AnimatedSprite" parent="Node2D" index="0"]
-position = Vector2( 0, 0 )
-rotation = 0.0
 frames = SubResource( 6 )
-animation = "on_floor"
 
 [node name="CollisionShape2D" parent="Node2D/AnimatedSprite/Hitbox" index="0"]
-position = Vector2( 4.95911e-05, -14 )
+position = Vector2( 3.91006e-05, -11 )
 shape = SubResource( 7 )
 disabled = true
 
@@ -289,5 +300,5 @@ anims/equipped = SubResource( 35 )
 anims/on_floor = SubResource( 33 )
 
 [node name="CollisionShape2D" parent="PlayerDetector" index="0"]
-position = Vector2( 0, -11 )
-shape = SubResource( 34 )
+position = Vector2( 0, -9 )
+shape = SubResource( 8 )
