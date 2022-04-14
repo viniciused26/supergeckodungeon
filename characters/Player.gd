@@ -1,7 +1,10 @@
 extends Character
 
-var current_weapon: Node2D
-var current_weapon_index: int
+const SWORD_SCENE: PackedScene = preload("res://weapons/sword/Sword.tscn")
+const CLUB_SCENE: PackedScene = preload("res://weapons/morningstar/MorningStar.tscn")
+
+onready var current_weapon: Node2D
+var current_weapon_index: int = 0
 var able_to_pickup: bool = true
 
 onready var weapons: Node2D = get_node("Weapons")
@@ -14,8 +17,6 @@ export(int) var magic: int = 2
 export(int) var vitality: int = 2
 
 func _ready() -> void:
-	current_weapon_index = 0
-	current_weapon = weapons.get_child(current_weapon_index)
 	_restore_previous_state()
 	get_node("CollisionShape2D").disabled = false
 
@@ -27,6 +28,28 @@ func _restore_previous_state() -> void:
 	dexterity = SavedData.dexterity
 	magic = SavedData.magic
 	vitality = SavedData.vitality
+	
+	if SavedData.weapons.empty():
+		var sword = SWORD_SCENE.instance()
+		sword.show()
+		sword.position = Vector2.ZERO
+		weapons.add_child(sword)
+		
+		var club = CLUB_SCENE.instance()
+		club.hide()
+		club.position = Vector2.ZERO
+		weapons.add_child(club)
+	else:
+		for wpn in SavedData.weapons:
+			wpn = wpn.duplicate()
+			wpn.hide()
+			wpn.position = Vector2.ZERO
+			weapons.add_child(wpn)
+	
+	current_weapon = weapons.get_child(SavedData.equipped_weapon_index)
+	current_weapon.animation_player.play("equipped")
+	current_weapon.show()
+	current_weapon_index = SavedData.equipped_weapon_index
 
 func _process(_delta: float) -> void:
 	var mouse_direction: Vector2 = (get_global_mouse_position() - global_position).normalized()
@@ -36,23 +59,25 @@ func _process(_delta: float) -> void:
 	elif mouse_direction.x < 0 and not animated_sprite.flip_h:
 		animated_sprite.flip_h = true
 	
-	current_weapon.move(mouse_direction)
+	if is_instance_valid(current_weapon):
+		current_weapon.move(mouse_direction)
 
 func get_input() -> void:
-	mov_direction = Vector2.ZERO
-	if Input.is_action_pressed("ui_down"):
-		mov_direction += Vector2.DOWN
-	if Input.is_action_pressed("ui_left"):
-		mov_direction += Vector2.LEFT
-	if Input.is_action_pressed("ui_right"):
-		mov_direction += Vector2.RIGHT
-	if Input.is_action_pressed("ui_up"):
-		mov_direction += Vector2.UP
-	if not current_weapon.is_busy():
-		if Input.is_action_just_pressed("ui_switch_weapon"):
-			_switch_weapon()
-	
-	current_weapon.get_input()
+	if is_instance_valid(current_weapon):
+		mov_direction = Vector2.ZERO
+		if Input.is_action_pressed("ui_down"):
+			mov_direction += Vector2.DOWN
+		if Input.is_action_pressed("ui_left"):
+			mov_direction += Vector2.LEFT
+		if Input.is_action_pressed("ui_right"):
+			mov_direction += Vector2.RIGHT
+		if Input.is_action_pressed("ui_up"):
+			mov_direction += Vector2.UP
+		if not current_weapon.is_busy():
+			if Input.is_action_just_pressed("ui_switch_weapon"):
+				_switch_weapon()
+		
+		current_weapon.get_input()
 
 func _switch_weapon() -> void:
 	if current_weapon.get_index() == 1:
@@ -65,6 +90,7 @@ func _switch_weapon() -> void:
 		current_weapon = weapons.get_child(current_weapon_index)
 		current_weapon.show()
 		current_weapon.animation_player.play("equipped")
+		SavedData.equipped_weapon_index = current_weapon.get_index()
 
 func switch_camera() -> void:
 	var main_scene_camera: Camera2D = get_parent().get_node("Camera2D")

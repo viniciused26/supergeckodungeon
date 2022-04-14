@@ -1,23 +1,5 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=2 format=2]
 
-[ext_resource path="res://characters/enemies/masked_orc/ThrowableKnife.gd" type="Script" id=1]
-[ext_resource path="res://art/masked_orc/knife.png" type="Texture" id=2]
+[ext_resource path="res://weapons/Projectile.tscn" type="PackedScene" id=1]
 
-[sub_resource type="CapsuleShape2D" id=1]
-radius = 1.88388
-height = 6.22692
-
-[node name="ThrowableKnife" type="Area2D"]
-collision_layer = 8
-collision_mask = 4
-script = ExtResource( 1 )
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( 0, 1.19209e-07 )
-rotation = 0.645772
-shape = SubResource( 1 )
-
-[node name="Sprite" type="Sprite" parent="."]
-texture = ExtResource( 2 )
-
-[connection signal="body_exited" from="." to="." method="_on_ThrowableKnife_body_exited"]
+[node name="ThrowableKnife" instance=ExtResource( 1 )]

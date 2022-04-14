@@ -5,9 +5,6 @@ var enemy_exited: bool = false
 var direction: Vector2 = Vector2.ZERO
 var knife_speed: int = 0
 
-func  _ready() -> void:
-	damage = 3
-
 func launch(initial_position: Vector2, dir: Vector2, speed: int) -> void:
 	position = initial_position
 	direction = dir
@@ -25,6 +22,8 @@ func _on_ThrowableKnife_body_exited(_body: KinematicBody2D) -> void:
 		enemy_exited = true
 		set_collision_mask_bit(0, true)
 		set_collision_mask_bit(1, true)
+		set_collision_mask_bit(2, true)
+		set_collision_mask_bit(3, true)
 
 func _collide(body: KinematicBody2D) -> void:
 	if enemy_exited:

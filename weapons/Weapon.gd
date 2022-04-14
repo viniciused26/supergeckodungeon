@@ -2,12 +2,13 @@ extends Node2D
 class_name Weapon, "res://art/weapon/sword/sword.png"
 
 export(bool) var on_floor: bool = false
+export(bool) var is_ranged: bool = false
+export(int) var rotation_offset: int = 0
 
 onready var animation_player: AnimationPlayer = get_node("AnimationPlayer")
 onready var animated_sprite: AnimatedSprite = get_node("Node2D/AnimatedSprite")
 onready var hitbox: Area2D = get_node("Node2D/AnimatedSprite/Hitbox")
 onready var player_detector: Area2D = get_node("PlayerDetector")
-onready var tween: Tween = get_node("Tween")
 
 func _ready() -> void:
 	if on_floor:
@@ -22,13 +23,16 @@ func get_input() -> void:
 		animation_player.play("attack")
 
 func move(mouse_direction: Vector2) -> void:
-	if not animation_player.is_playing():
-		rotation = mouse_direction.angle()
-		hitbox.knockaback_direction = mouse_direction
-		if scale.y == 1 and mouse_direction.x < 0:
-			scale.y = -1
-		elif scale.y == -1 and mouse_direction.x > 0:
-			scale.y = 1
+	if is_ranged:
+		rotation_degrees = rad2deg(mouse_direction.angle()) + rotation_offset
+	else:
+		if not animation_player.is_playing():
+			rotation = mouse_direction.angle()
+			hitbox.knockaback_direction = mouse_direction
+			if scale.y == 1 and mouse_direction.x < 0:
+				scale.y = -1
+			elif scale.y == -1 and mouse_direction.x > 0:
+				scale.y = 1
 
 func is_busy() -> bool:
 	if animation_player.is_playing():
@@ -62,3 +66,6 @@ func reset_for_pickup() -> void:
 func dropped() -> void:
 	animation_player.playback_speed = 1
 	reset_for_pickup()
+	
+	if is_ranged:
+		rotation_degrees = 0

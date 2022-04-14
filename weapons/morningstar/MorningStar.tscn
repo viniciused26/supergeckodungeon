@@ -176,7 +176,7 @@ tracks/4/loop_wrap = true
 tracks/4/imported = false
 tracks/4/enabled = true
 tracks/4/keys = {
-"times": PoolRealArray( 0, 1.25 ),
+"times": PoolRealArray( 0, 0.3 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
 "values": [ false, true ]
@@ -346,8 +346,6 @@ height = 14.0
 script = ExtResource( 3 )
 
 [node name="AnimatedSprite" parent="Node2D" index="0"]
-position = Vector2( 0, 0 )
-rotation = 0.0
 frames = SubResource( 27 )
 
 [node name="CollisionShape2D" parent="Node2D/AnimatedSprite/Hitbox" index="0"]

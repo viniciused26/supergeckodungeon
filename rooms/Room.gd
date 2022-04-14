@@ -10,7 +10,8 @@ const ENEMY_SCENES: Dictionary = {
 const WEAPON_SCENES : Dictionary = {
 	"SWORD": preload("res://weapons/sword/Sword.tscn"),
 	"MORNINGSTAR": preload("res://weapons/morningstar/MorningStar.tscn"),
-	"GOLDEN_SWORD": preload("res://weapons/golden_sword/GoldenSword.tscn")
+	"GOLDEN_SWORD": preload("res://weapons/golden_sword/GoldenSword.tscn"),
+	"CROSSBOW": preload("res://weapons/crossbow/Crossbow.tscn")
 }
 
 var num_enemies: int
@@ -49,7 +50,12 @@ func _close_entrance() -> void:
 func _spawn_weapons() -> void:
 	for weapon_position in weapon_positions_container.get_children():
 		var weapon: Node2D
-		weapon = WEAPON_SCENES.GOLDEN_SWORD.instance()
+		if randi() % 2 == 0:
+			weapon = WEAPON_SCENES.CROSSBOW.instance()
+		else:
+			weapon = WEAPON_SCENES.GOLDEN_SWORD.instance()
+		
+		
 		weapon.on_floor = true
 		
 		weapon_container.position = weapon_position.position

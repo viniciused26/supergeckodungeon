@@ -17,7 +17,7 @@ onready var player: KinematicBody2D = get_parent().get_node("Player")
 
 func _ready() -> void:
 	if player.level <= 5:
-		num_levels = 5
+		num_levels = 3
 	elif player.level <= 10:
 		num_levels = 7
 	elif player.level <= 15:

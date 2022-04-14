@@ -10,6 +10,8 @@ signal hp_changed(new_hp)
 export(int) var acceleration: int = 40
 export(int) var max_speed: int = 100
 
+var floating_text : PackedScene = preload("res://FloatingText.tscn")
+
 onready var state_machine: Node = get_node("FiniteStateMachine")
 onready var animated_sprite: AnimatedSprite = get_node("AnimatedSprite")
 
@@ -26,6 +28,11 @@ func move() -> void:
 	velocity = velocity.clamped(max_speed)
 
 func take_damage(dam: int, dir: Vector2, force: int) -> void:
+	var text = floating_text.instance()
+	text.ammount = dam
+	text.type = "damage"
+	add_child(text)
+	
 	if state_machine.state != state_machine.states.hurt and state_machine.state != state_machine.states.dead: 
 		self.hp -= dam
 		if name == "Player":

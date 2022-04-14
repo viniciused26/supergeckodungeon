@@ -10,4 +10,4 @@ var hp: int = 10
 var max_hp: int = 5 * vitality
 
 var weapons: Array = []
-var equiped_weapon_index: int = 0
+var equipped_weapon_index: int = 0
