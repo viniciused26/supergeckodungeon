@@ -16,6 +16,8 @@ export(int) var dexterity: int = 2
 export(int) var magic: int = 2
 export(int) var vitality: int = 2
 
+signal switch_weapon(new_texture)
+
 func _ready() -> void:
 	_restore_previous_state()
 	get_node("CollisionShape2D").disabled = false
@@ -39,6 +41,7 @@ func _restore_previous_state() -> void:
 		club.hide()
 		club.position = Vector2.ZERO
 		weapons.add_child(club)
+		emit_signal("switch_weapon", club.get_texture())
 	else:
 		for wpn in SavedData.weapons:
 			wpn = wpn.duplicate()
@@ -50,6 +53,11 @@ func _restore_previous_state() -> void:
 	current_weapon.animation_player.play("equipped")
 	current_weapon.show()
 	current_weapon_index = SavedData.equipped_weapon_index
+	
+	if current_weapon_index == 0:
+		emit_signal("switch_weapon", weapons.get_child(1).get_texture())
+	else:
+		emit_signal("switch_weapon", weapons.get_child(0).get_texture())
 
 func _process(_delta: float) -> void:
 	var mouse_direction: Vector2 = (get_global_mouse_position() - global_position).normalized()
@@ -87,6 +95,7 @@ func _switch_weapon() -> void:
 	
 	if is_instance_valid(weapons.get_child(current_weapon_index)):
 		current_weapon.hide()
+		emit_signal("switch_weapon", current_weapon.get_texture())
 		current_weapon = weapons.get_child(current_weapon_index)
 		current_weapon.show()
 		current_weapon.animation_player.play("equipped")

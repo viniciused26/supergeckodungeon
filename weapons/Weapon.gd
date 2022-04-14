@@ -69,3 +69,6 @@ func dropped() -> void:
 	
 	if is_ranged:
 		rotation_degrees = 0
+
+func get_texture() -> Texture:
+	return get_node("Node2D/Sprite").texture

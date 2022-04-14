@@ -1,9 +1,10 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://weapons/Weapon.tscn" type="PackedScene" id=1]
 [ext_resource path="res://art/weapon/crossbow/crossbow.png" type="Texture" id=2]
 [ext_resource path="res://art/weapon/crossbow/pickup.png" type="Texture" id=3]
 [ext_resource path="res://weapons/crossbow/Crossbow.gd" type="Script" id=4]
+[ext_resource path="res://art/weapon/crossbow/crossbow_display.png" type="Texture" id=5]
 
 [sub_resource type="AtlasTexture" id=1]
 atlas = ExtResource( 2 )
@@ -338,6 +339,9 @@ position = Vector2( 9.53674e-07, -9.53674e-07 )
 rotation = -2.35619
 frames = SubResource( 2 )
 offset = Vector2( 6, -6 )
+
+[node name="Sprite" parent="Node2D" index="1"]
+texture = ExtResource( 5 )
 
 [node name="AnimationPlayer" parent="." index="1"]
 anims/RESET = SubResource( 8 )
